@@ -19,4 +19,15 @@ export class ActivosFijosServiceService {
   		});
   	});
   }
+  listarActivosPorTipo(tipo){
+  	let headers = new HttpHeaders({'Accept': 'text/javascript'});
+  	return new Promise(resolve =>{
+  		this.http.get("http://localhost:8080/activos/tipo/"+tipo).subscribe(data => {
+  			console.log("Solicitando activos del tipo "+tipo+"...");
+  			resolve(data);
+  		}, err =>{
+  			console.log(err);
+  		});
+  	});
+  }
 }

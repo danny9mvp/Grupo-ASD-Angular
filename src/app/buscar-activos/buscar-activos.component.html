@@ -1,13 +1,14 @@
 <div class="container">
 	<div class="row my-4 text-center">
 		<div class="col col-lg-12 col-md-6 col-md-3">
-			<h1>Todos los activos</h1>				
+			<h1>Buscar activos</h1>				
 		</div>
 	</div>
 	<div class="row my-4">
-		<div class="col col-lg-12 col-md-6 col-md-3">
-			<table class="table table-responsive table-striped" style="position: relative;height: 400px;overflow: auto;display: block;">
-				<thead class="thead-dark">
+		<h5>Todos los activos</h5>
+		<div class="col col-lg-12 col-md-6 col-sm-3">			
+			<table class="table table-responsive table-striped" style="position: relative;height: 400px;overflow: auto;display: block;">				
+				<thead class="thead-dark">					
 					<th scope="col">#</th>
 					<th scope="col">Nombre</th>
 					<th scope="col">Descripción</th>
@@ -45,6 +46,128 @@
 				</tbody>
 			</table>			
 			<ng-template #valorNulo><td>N/A</td></ng-template>			
-		</div>
+		</div>		
 	</div>
+	<div class="row my-4">			   
+		<div class="col col-lg-12 col-md-6 col-sm-3">
+			<h2>Búsqueda por:</h2>
+			<!-- Default inline 1-->
+			<div class="custom-control custom-radio custom-control-inline">
+			  <input type="radio" class="custom-control-input" value="tipo" id="defaultInline1" name="inlineDefaultRadiosExample" (change)="setradio('tipo')" mdbInput>
+			  <label class="custom-control-label" for="defaultInline1">Tipo</label>
+			</div>
+
+			<!-- Default inline 2-->
+			<div class="custom-control custom-radio custom-control-inline">
+			  <input type="radio" class="custom-control-input" value="fecha" id="defaultInline2" name="inlineDefaultRadiosExample" (change)="setradio('fecha')" mdbInput>
+			  <label class="custom-control-label" for="defaultInline2">Fecha de compra</label>
+			</div>
+
+			<!-- Default inline 3-->
+			<div class="custom-control custom-radio custom-control-inline">
+			  <input type="radio" class="custom-control-input" value="serial" id="defaultInline3" name="inlineDefaultRadiosExample" (change)="setradio('tipo')" mdbInput>
+			  <label class="custom-control-label" for="defaultInline3"># de serie</label>
+			</div>
+			<div class="my-5" *ngIf="isSelected('tipo')" >
+			<h5>Activos por tipo</h5>
+			<div class="input-group mb-3">
+			  <div class="input-group-prepend">
+			    <label class="input-group-text" for="inputGroupSelect01">Tipo</label>
+			  </div>
+			  <form (ngSubmit)="buscarPorTipo()">
+			  	<select [(ngModel)]="tipoSeleccionado" name="tipoSeleccionado" class="custom-select" id="inputGroupSelect01">
+			    <option *ngFor="let tipo of tipos" value="{{tipo}}">{{tipo}}</option>
+			  </select>			  
+				<div class="input-group-append">
+    				<button class="btn btn-primary" type="submit"><i class="fa fa-search"></i>Buscar</button>
+  				</div>
+			  </form>			  
+			</div>					
+		     <table class="table table-responsive table-striped" style="position: relative;height: 400px;overflow: auto;display: block;">				
+				<thead class="thead-dark">					
+					<th scope="col">#</th>
+					<th scope="col">Nombre</th>
+					<th scope="col">Descripción</th>
+					<th scope="col">Tipo</th>
+					<th scope="col"># de serie</th>
+					<th scope="col"># de inventario</th>
+					<th scope="col">Alto</th>
+					<th scope="col">Largo</th>
+					<th scope="col">Ancho</th>
+					<th scope="col">Peso</th>
+					<th scope="col">Valor compra</th>
+					<th scope="col">Fecha compra</th>
+					<th scope="col">Fecha de baja</th>
+					<th scope="col">Estado actual</th>
+					<th scope="col">Color</th>
+				</thead>
+				<tbody>
+					<tr *ngFor="let activoFijo of activosPorTipo">
+						<td>{{activoFijo.afijId}}</td>
+						<td>{{activoFijo.afijNombre}}</td>
+						<td>{{activoFijo.afijDescripcion}}</td>
+						<td>{{activoFijo.afijTipo}}</td>
+						<td *ngIf="activoFijo.afijNumeroserie != null; else valorNulo">{{activoFijo.afijNumeroserie}}</td>
+						<td *ngIf="activoFijo.afijNumeroinventario != null; else valorNulo">{{activoFijo.afijNumeroinventario}}</td>
+						<td *ngIf="activoFijo.afijAlto != null; else valorNulo">{{activoFijo.afijAlto}} metros</td>
+						<td *ngIf="activoFijo.afijLargo != null; else valorNulo">{{activoFijo.afijLargo}} metros</td>
+						<td *ngIf="activoFijo.afijAncho != null; else valorNulo">{{activoFijo.afijAncho}} metros</td>
+						<td *ngIf="activoFijo.afijPeso != null; else valorNulo">{{activoFijo.afijPeso}} Kg</td>
+						<td *ngIf="activoFijo.afijValorcompra != null; else valorNulo">${{activoFijo.afijNumeroserie}}</td>
+						<td *ngIf="activoFijo.afijFechacompra != null; else valorNulo">{{activoFijo.afijFechacompra}}</td>
+						<td *ngIf="activoFijo.afijFechabaja != null; else valorNulo">{{activoFijo.afijFechabaja}}</td>
+						<td>{{activoFijo.afijEstadoactual}}</td>
+						<td *ngIf="activoFijo.afijColor != null; else valorNulo">{{activoFijo.afijColor}}</td>
+					</tr>
+				</tbody>  
+			</table>
+			<ng-template #valorNulo><td>N/A</td></ng-template>
+		   </div>  
+		  
+		   <div class="my-5" *ngIf="isSelected('fecha')">
+		   	  <h5>Activos por fecha de compra</h5>  
+		      <table class="table table-responsive table-striped" style="position: relative;height: 400px;overflow: auto;display: block;">				
+				<thead class="thead-dark">					
+					<th scope="col">#</th>
+					<th scope="col">Nombre</th>
+					<th scope="col">Descripción</th>
+					<th scope="col">Tipo</th>
+					<th scope="col"># de serie</th>
+					<th scope="col"># de inventario</th>
+					<th scope="col">Alto</th>
+					<th scope="col">Largo</th>
+					<th scope="col">Ancho</th>
+					<th scope="col">Peso</th>
+					<th scope="col">Valor compra</th>
+					<th scope="col">Fecha compra</th>
+					<th scope="col">Fecha de baja</th>
+					<th scope="col">Estado actual</th>
+					<th scope="col">Color</th>
+				</thead> 
+				</table> 
+		   </div>
+		   <div class="my-5" *ngIf="isSelected('serial')">
+		   	  <h5>Activos por # de serie</h5>  
+		      <table class="table table-responsive table-striped" style="position: relative;height: 400px;overflow: auto;display: block;">				
+				<thead class="thead-dark">					
+					<th scope="col">#</th>
+					<th scope="col">Nombre</th>
+					<th scope="col">Descripción</th>
+					<th scope="col">Tipo</th>
+					<th scope="col"># de serie</th>
+					<th scope="col"># de inventario</th>
+					<th scope="col">Alto</th>
+					<th scope="col">Largo</th>
+					<th scope="col">Ancho</th>
+					<th scope="col">Peso</th>
+					<th scope="col">Valor compra</th>
+					<th scope="col">Fecha compra</th>
+					<th scope="col">Fecha de baja</th>
+					<th scope="col">Estado actual</th>
+					<th scope="col">Color</th>
+				</thead>
+				</table>  
+		   </div>
+	</div>
+		</div>
 </div>
