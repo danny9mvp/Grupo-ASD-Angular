@@ -6,5 +6,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'ClienteAngular';
+  title = 'La prueba técnica para el Grupo ASD';
 }

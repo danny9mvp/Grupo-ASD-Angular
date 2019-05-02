@@ -1,0 +1,50 @@
+<div class="container">
+	<div class="row my-4 text-center">
+		<div class="col col-lg-12 col-md-6 col-md-3">
+			<h1>Todos los activos</h1>				
+		</div>
+	</div>
+	<div class="row my-4">
+		<div class="col col-lg-12 col-md-6 col-md-3">
+			<table class="table table-responsive table-striped" style="position: relative;height: 400px;overflow: auto;display: block;">
+				<thead class="thead-dark">
+					<th scope="col">#</th>
+					<th scope="col">Nombre</th>
+					<th scope="col">Descripción</th>
+					<th scope="col">Tipo</th>
+					<th scope="col"># de serie</th>
+					<th scope="col"># de inventario</th>
+					<th scope="col">Alto</th>
+					<th scope="col">Largo</th>
+					<th scope="col">Ancho</th>
+					<th scope="col">Peso</th>
+					<th scope="col">Valor compra</th>
+					<th scope="col">Fecha compra</th>
+					<th scope="col">Fecha de baja</th>
+					<th scope="col">Estado actual</th>
+					<th scope="col">Color</th>
+				</thead>
+				<tbody>
+					<tr *ngFor="let activoFijo of todosLosActivos">
+						<td>{{activoFijo.afijId}}</td>
+						<td>{{activoFijo.afijNombre}}</td>
+						<td>{{activoFijo.afijDescripcion}}</td>
+						<td>{{activoFijo.afijTipo}}</td>
+						<td *ngIf="activoFijo.afijNumeroserie != null; else valorNulo">{{activoFijo.afijNumeroserie}}</td>
+						<td *ngIf="activoFijo.afijNumeroinventario != null; else valorNulo">{{activoFijo.afijNumeroinventario}}</td>
+						<td *ngIf="activoFijo.afijAlto != null; else valorNulo">{{activoFijo.afijAlto}} metros</td>
+						<td *ngIf="activoFijo.afijLargo != null; else valorNulo">{{activoFijo.afijLargo}} metros</td>
+						<td *ngIf="activoFijo.afijAncho != null; else valorNulo">{{activoFijo.afijAncho}} metros</td>
+						<td *ngIf="activoFijo.afijPeso != null; else valorNulo">{{activoFijo.afijPeso}} Kg</td>
+						<td *ngIf="activoFijo.afijValorcompra != null; else valorNulo">${{activoFijo.afijNumeroserie}}</td>
+						<td *ngIf="activoFijo.afijFechacompra != null; else valorNulo">{{activoFijo.afijFechacompra}}</td>
+						<td *ngIf="activoFijo.afijFechabaja != null; else valorNulo">{{activoFijo.afijFechabaja}}</td>
+						<td>{{activoFijo.afijEstadoactual}}</td>
+						<td *ngIf="activoFijo.afijColor != null; else valorNulo">{{activoFijo.afijColor}}</td>
+					</tr>
+				</tbody>
+			</table>			
+			<ng-template #valorNulo><td>N/A</td></ng-template>			
+		</div>
+	</div>
+</div>
