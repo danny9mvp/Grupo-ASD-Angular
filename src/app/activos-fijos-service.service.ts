@@ -30,4 +30,41 @@ export class ActivosFijosServiceService {
   		});
   	});
   }
+
+  listarActivosPorFecha(fechaDeCompra){
+  	let headers = new HttpHeaders({'Accept': 'text/javascript'});
+  	return new Promise(resolve =>{
+  		this.http.get("http://localhost:8080/activos/fechaDeCompra/"+fechaDeCompra).subscribe(data => {
+  			console.log("Solicitando activos con fecha de compra "+fechaDeCompra+"...");
+  			resolve(data);
+  		}, err =>{
+  			console.log(err);
+  		});
+  	});
+  }
+
+  listarActivosPorSerial(serial){
+  	let headers = new HttpHeaders({'Accept': 'text/javascript'});
+  	return new Promise(resolve =>{		
+		this.http.get("http://localhost:8080/activos/numeroDeSerie/"+serial).subscribe(data => {
+			console.log("Solicitando activos con número de serie "+serial+"...");
+			resolve(data);
+		}, err => {
+			console.log(err);
+		});
+  	});
+  }
+
+  listarSeriales(){
+  	let headers = new HttpHeaders({'Accept': 'text/javascript'});
+  	return new Promise(resolve =>{
+  		this.http.get("http://localhost:8080/activos/listarSeriales").subscribe(data => {
+  			console.log("Listando seriales...");
+  			resolve(data);
+  		}, err => {
+  			console.log(err);
+  		});
+  	});
+  }
+
 }
