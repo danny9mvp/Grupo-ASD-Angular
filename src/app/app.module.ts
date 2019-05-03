@@ -6,19 +6,22 @@ import { AppComponent } from './app.component';
 import { BuscarActivosComponent } from './buscar-activos/buscar-activos.component';
 import { InicioComponent } from './inicio/inicio.component';
 import { HttpClientModule } from '@angular/common/http';
-import { FormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { CrearActualizarActivoComponent } from './crear-actualizar-activo/crear-actualizar-activo.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     BuscarActivosComponent,
-    InicioComponent
+    InicioComponent,
+    CrearActualizarActivoComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

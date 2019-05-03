@@ -1,0 +1,105 @@
+<div class="container">
+	<div class="row my-4 text-center">
+		<div class="col col-lg-12 col-md-6 col-sm-3">
+			<h1>Crear Activo</h1>
+		</div>
+		<div class="col col-lg-12 col-md-6 col-sm-4">
+			<form [formGroup]="formCrear" (ngSubmit)="crearActivo()">
+				<div class="form-row align-items-center">
+					<div class="col-auto">
+						<div class="md-form">
+							<label for="txtNombre" class="sr-only">Nombres</label>
+							<input type="text" id="txtNombre" formControlName="nombre" class="form-control" placeholder="Nombre" required="true">
+						</div>
+					</div>
+					<div class="col-auto">
+						<div class="md-form input-group mb-3">
+							<label for="areaDescripcion" class="sr-only">Descripción</label>
+							<textarea id="areaDescipcion" formControlName="descripcion" class="form-control pl-0 rounded-0" placeholder="Descripción" required="true"></textarea>
+						</div>
+					</div>
+					<div class="col-auto">
+						<div class="md-form input-group mb-3">
+							<label for="listaTipos" class="sr-only">Tipo</label>
+							<select formControlName="tipo" class="custom-select" id="inputGroupSelect01" required="true">				
+								<option disabled selected>--Tipo</option>
+								<option *ngFor="let tipo of tipos" value="{{tipo}}">{{tipo}}</option>
+							</select>
+						</div>
+					</div>
+					<div class="col-auto">
+						<div class="md-form input-group mb-3">
+							<label for="txtSerial" class="sr-only">Serial</label>
+							<input type="text" formControlName="serial" id="txtSerial" class="form-control" placeholder="# de serie">
+						</div>
+					</div>
+					<div class="col-auto">
+						<div class="md-form input-group mb-3">
+							<label for="txtInventario" class="sr-only">Serial</label>
+							<input type="text" formControlName="numeroInventario" id="txtInventario" class="form-control" placeholder="# de inventario">
+						</div>
+					</div>
+					<div class="col-auto">
+						<div class="md-form input-group mb-3">
+							<label for="numberAlto" class="sr-only">Alto</label>
+							<input type="number" formControlName="alto" id="numberAlto" class="form-control" placeholder="Alto (metros)" step="0.01" min="0.01">
+						</div>
+					</div>
+					<div class="col-auto">
+						<div class="md-form input-group mb-3">
+							<label for="numberLargo" class="sr-only">Largo</label>
+							<input type="number" formControlName="largo" id="numberLargo" class="form-control" placeholder="Largo (metros)" step="0.01" min="0.01">
+						</div>
+					</div>
+					<div class="col-auto">
+						<div class="md-form input-group mb-3">
+							<label for="numberAncho" class="sr-only">Ancho</label>
+							<input type="number" formControlName="ancho" id="numberAncho" class="form-control" placeholder="Ancho (metros)" step="0.01" min="0.01">
+						</div>
+					</div>
+					<div class="col-auto">
+						<div class="md-form input-group mb-3">
+							<label for="numberPeso" class="sr-only">Peso</label>
+							<input type="number" formControlName="peso" id="numberPeso" class="form-control" placeholder="Peso (Kg)" step="0.01" min="0.01">
+						</div>
+					</div>
+					<div class="col-auto">
+						<div class="md-form input-group mb-3">
+							<label for="numberValorCompra" class="sr-only">Valor compra</label>
+							<input type="number" formControlName="valorCompra" id="numberValorCompra" class="form-control" placeholder="Valor compra $" step="any" min="1">
+						</div>
+					</div>
+					<div class="col-auto">
+						<div class="md-form input-group mb-3">
+							<label for="dateCompra" class="sr-only">Fecha compra</label>
+							<input formControlName="fechaCompra" placeholder = "Fecha compra" class = "form-control" type = "text" onfocus = "(this.type = 'date')"  id = "dateCompra">
+						</div>
+					</div>
+					<div class="col-auto">
+						<div class="md-form input-group mb-3">
+							<label for="dateBaja" class="sr-only">Fecha baja</label>
+							<input formControlName="fechaBaja" placeholder = "Fecha baja" class = "form-control" type = "text" onfocus = "(this.type = 'date')"  id = "dateBaja">
+						</div>
+					</div>
+					<div class="col-auto">
+						<div class="md-form input-group mb-3">
+							<label for="listaEstados" class="sr-only">Estado</label>
+							<select formControlName="estadoActual" class="custom-select" id="inputGroupSelect02" required="true">								
+								<option disabled selected>--Estado actual</option>
+								<option *ngFor="let estado of estados" value="{{estado}}">{{estado}}</option>
+							</select>
+						</div>
+					</div>
+					<div class="col-auto">
+						<div class="md-form input-group mb-3">
+							<label for="txtColor" class="sr-only">Color</label>
+							<input type="text" formControlName="color" id="txtColor" class="form-control" placeholder="Color">
+						</div>
+					</div>					
+				</div>
+				<button class="btn btn-primary"><i class= "fa fa-plus"></i> Crear</button>
+			</form>
+		</div>
+		<hr>
+	</div>
+</div>

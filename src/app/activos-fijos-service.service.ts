@@ -67,4 +67,16 @@ export class ActivosFijosServiceService {
   	});
   }
 
+  crearActivo(activo){
+  	let headers = new HttpHeaders({'Accept': 'text/javascript', 'ContentType': 'application/json'});
+  	return new Promise(resolve =>{
+  		this.http.post("http://localhost:8080/activos/crearActivoFijo", activo).subscribe(data => {
+  			console.log("Enviando petición para crear nuevo Activo Fijo...");
+  			resolve(data);
+  		}, err => {
+  			console.log(err);
+  		});
+  	});
+  }
+
 }
