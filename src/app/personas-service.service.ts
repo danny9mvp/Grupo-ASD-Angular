@@ -11,7 +11,7 @@ export class PersonasServiceService {
   listarPersonas(){
   	let headers = new HttpHeaders({'Accept': 'text/javascript'});
   	return new Promise(resolve =>{
-  		this.http.get("http://localhost:8080/personas/todos").subscribe(data => {
+  		this.http.get("http://localhost:8080/PruebaTecnica/personas/todos").subscribe(data => {
   			console.log("Solicitando todas las personas...");
   			resolve(data);
   		}, err => {

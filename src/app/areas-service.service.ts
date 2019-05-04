@@ -11,7 +11,7 @@ export class AreasServiceService {
   listarAreas(){
   	let headers = new HttpHeaders({'Accept': 'text/javascript'});
   	return new Promise(resolve =>{
-  		this.http.get("http://localhost:8080/areas/todos").subscribe(data => {
+  		this.http.get("http://localhost:8080/PruebaTecnica/areas/todos").subscribe(data => {
   			console.log("Solicitando todas las areas...");
   			resolve(data);
   		}, err => {
