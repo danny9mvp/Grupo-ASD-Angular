@@ -1,0 +1,28 @@
+<div class="container">
+	<div class="row my-4 text-center">
+		<div class="col col-lg-12 col-md-6 col-md-3">
+			<h1>Buscar áreas</h1>				
+		</div>
+	</div>
+	<div class="row my-4">
+		<h5>Todas las áreas</h5>
+		<div class="col col-lg-12 col-md-6 col-sm-3">
+			<table class="table table-responsive table-striped" style="position: relative;height: 400px;overflow: auto;display: block;">
+				<thead>
+					<th scope="col">#</th>
+					<th scope="col">Nombre</th>
+					<th scope="col"># activo fijo</th>
+					<th scope="col"># ciudad</th>
+				</thead>
+				<tbody>
+					<tr *ngFor="let area of areas">
+						<td>{{area.areaId}}</td>
+						<td>{{area.areaNombre}}</td>
+						<td>{{area.areaActivofijo}}</td>
+						<td>{{area.areaCiudad}}</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>

@@ -8,13 +8,17 @@ import { InicioComponent } from './inicio/inicio.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { CrearActualizarActivoComponent } from './crear-actualizar-activo/crear-actualizar-activo.component';
+import { AreasComponent } from './areas/areas.component';
+import { PersonasComponent } from './personas/personas.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     BuscarActivosComponent,
     InicioComponent,
-    CrearActualizarActivoComponent
+    CrearActualizarActivoComponent,
+    AreasComponent,
+    PersonasComponent
   ],
   imports: [
     BrowserModule,
