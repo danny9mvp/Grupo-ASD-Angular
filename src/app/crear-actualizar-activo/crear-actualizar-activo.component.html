@@ -1,30 +1,32 @@
 <div class="container">
-	<div class="row my-4 text-center">
-		<div class="col col-lg-12 col-md-6 col-sm-3">
+	<div class="row my-4">
+		<div class="col col-lg-12 col-md-6 col-sm-3 text-center">
 			<h1>Crear Activo</h1>
+			<span class="badge badge-danger" *ngIf="!this.fechaCompraMayorQueFechaBajaCrear()">La fecha de baja NO puede ser mayor que la fecha de compra</span>
+					<span class="badge badge-danger" *ngIf="!this.formCrear.valid">Hay uno o más campos obligatorios sin llenar.</span>
 		</div>
 		<div class="col col-lg-12 col-md-6 col-sm-4">
 			<form [formGroup]="formCrear" (ngSubmit)="crearActivo()">
 				<div class="form-row align-items-center">
 					<div class="col-auto">
-						<div class="md-form">
-							<label for="txtNombre" class="sr-only">Nombres</label>
-							<input type="text" id="txtNombre" formControlName="nombre" class="form-control" placeholder="Nombre" required="true">
+						<div class="md-form input-group mb-3">
+							<label for="txtNombre" class="sr-only">Nombre</label>
+							<input type="text" id="txtNombre" formControlName="nombre" class="form-control" placeholder="Nombre" required="true">*
 						</div>
 					</div>
 					<div class="col-auto">
 						<div class="md-form input-group mb-3">
 							<label for="areaDescripcion" class="sr-only">Descripción</label>
-							<textarea id="areaDescipcion" formControlName="descripcion" class="form-control pl-0 rounded-0" placeholder="Descripción" required="true"></textarea>
+							<textarea id="areaDescipcion" formControlName="descripcion" class="form-control pl-0 rounded-0" placeholder="Descripción" required="true"></textarea>*
 						</div>
 					</div>
 					<div class="col-auto">
 						<div class="md-form input-group mb-3">
 							<label for="listaTipos" class="sr-only">Tipo</label>
-							<select formControlName="tipo" class="custom-select" id="inputGroupSelect01" required="true">				
+							<select formControlName="tipo" class="custom-select" id="inputGroupSelect01" required="true">		
 								<option disabled selected>--Tipo</option>
 								<option *ngFor="let tipo of tipos" value="{{tipo}}">{{tipo}}</option>
-							</select>
+							</select>*
 						</div>
 					</div>
 					<div class="col-auto">
@@ -87,7 +89,7 @@
 							<select formControlName="estadoActual" class="custom-select" id="inputGroupSelect02" required="true">								
 								<option disabled selected>--Estado actual</option>
 								<option *ngFor="let estado of estados" value="{{estado}}">{{estado}}</option>
-							</select>
+							</select>*
 						</div>
 					</div>
 					<div class="col-auto">
@@ -97,9 +99,169 @@
 						</div>
 					</div>					
 				</div>
-				<button class="btn btn-primary"><i class= "fa fa-plus"></i> Crear</button>
+				<div class="col col-lg-6 col-md-6 col-sm3">
+					<button class="btn btn-primary mx-3" [disabled]="!this.formCrear.valid || !this.fechaCompraMayorQueFechaBajaCrear()"><i class= "fa fa-plus"></i> Crear</button>
+					<button type="reset" class="btn btn-secondary">Resetear campos</button>					
+				</div>
 			</form>
 		</div>
 		<hr>
+	</div>
+	<hr class="my-4">
+	<div class="row my-4">
+		<div class="col col-lg-12 col-md-6 col-sm-3 text-center">
+			<div class="container">
+				<div class="row my-4">
+				<div class="col col-lg-12 col-md-6 col-sm-3 text-center">
+					<h1>Actualizar Activo</h1>
+					<span class="badge badge-danger" *ngIf="!this.fechaCompraMayorQueFechaBajaActualizar()">La fecha de baja NO puede ser mayor que la fecha de compra</span>
+					<span class="badge badge-danger" *ngIf="!this.formActualizar.valid && activoEncontrado != undefined">Hay uno o más campos obligatorios sin llenar.</span>
+				</div>
+				</div>				
+				<div class="row my-4">
+					<form (ngSubmit)="buscarActivo()">
+						<div class="input-group mb-3">
+						  <div class="input-group-prepend">
+						    <label class="input-group-text" for="inputGroupSelect01">Id</label>
+						  </div>			  
+						  	<select [(ngModel)]="idSeleccionado" name="idSeleccionado" class="custom-select" id="inputGroupSelect03">
+						    <option *ngFor="let id of ids" value="{{id}}">{{id}}</option>
+						  </select>			  
+							<div class="input-group-append">
+			    				<button class="btn btn-primary" [disabled]="idSeleccionado === undefined" type="submit"><i class="fa fa-search"></i> Buscar</button>
+			  				</div>			  			 
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+		<div *ngIf="activoEncontrado != undefined" class="col col-lg-12 col-md-6 col-sm-4">
+			<form [formGroup]="formActualizar" (ngSubmit)="actualizarActivo()">
+				<div class="form-row align-items-center">
+					<div class="col-auto">
+						<div class="md-form input-group mb-3">
+							<label for="txtNombre" class="sr-only">Nombre</label>
+							<input type="text" id="txtNombre" formControlName="nombre" class="form-control" placeholder="{{activoEncontrado.afijNombre}}" required="true">*							
+						</div>
+					</div>
+					<div class="col-auto">
+						<div class="md-form input-group mb-3">
+							<label for="areaDescripcion" class="sr-only">Descripción</label>
+							<textarea id="areaDescipcion" formControlName="descripcion" class="form-control pl-0 rounded-0" placeholder="{{activoEncontrado.afijDescripcion}}" required="true"></textarea>*
+						</div>
+					</div>
+					<div class="col-auto">
+						<div class="md-form input-group mb-3">
+							<label for="listaTipos" class="sr-only">Tipo</label>
+							<select formControlName="tipo" class="custom-select" id="inputGroupSelect01" required="true">
+								<option *ngFor="let tipo of tipos" value="{{tipo}}">{{tipo}}</option>
+							</select>*
+						</div>
+					</div>
+					<div class="col-auto">
+						<div class="md-form input-group mb-3">
+							<label for="txtSerial" class="sr-only">Serial</label>
+							<input type="text" formControlName="serial" id="txtSerial" class="form-control" placeholder="{{activoEncontrado.afijNumeroserie}}">
+						</div>
+					</div>
+					<div class="col-auto">
+						<div class="md-form input-group mb-3">
+							<label for="txtInventario" class="sr-only">Inventario</label>
+							<input type="text" formControlName="numeroInventario" id="txtInventario" class="form-control" placeholder="{{activoEncontrado.afijNumeroinventario}}">
+						</div>
+					</div>
+					<div class="col-auto">
+						<div class="md-form input-group mb-3">
+							<label for="numberAlto" class="sr-only">Alto</label>
+							<input type="number" formControlName="alto" id="numberAlto" class="form-control" placeholder="{{activoEncontrado.afijAlto}}" step="0.01" min="0.01">
+						</div>
+					</div>
+					<div class="col-auto">
+						<div class="md-form input-group mb-3">
+							<label for="numberLargo" class="sr-only">Largo</label>
+							<input type="number" formControlName="largo" id="numberLargo" class="form-control" placeholder="{{activoEncontrado.afijLargo}}" step="0.01" min="0.01">
+						</div>
+					</div>
+					<div class="col-auto">
+						<div class="md-form input-group mb-3">
+							<label for="numberAncho" class="sr-only">Ancho</label>
+							<input type="number" formControlName="ancho" id="numberAncho" class="form-control" placeholder="{{activoEncontrado.afijAncho}}" step="0.01" min="0.01">
+						</div>
+					</div>
+					<div class="col-auto">
+						<div class="md-form input-group mb-3">
+							<label for="numberPeso" class="sr-only">Peso</label>
+							<input type="number" formControlName="peso" id="numberPeso" class="form-control" placeholder="{{activoEncontrado.afijPeso}}" step="0.01" min="0.01">
+						</div>
+					</div>
+					<div class="col-auto">
+						<div class="md-form input-group mb-3">
+							<label for="numberValorCompra" class="sr-only">Valor compra</label>
+							<input type="number" formControlName="valorCompra" id="numberValorCompra" class="form-control" placeholder="{{activoEncontrado.afijValorcompra}}" step="any" min="1">
+						</div>
+					</div>
+					<div class="col-auto">
+						<div class="md-form input-group mb-3">
+							<label for="dateCompra" class="sr-only">Fecha compra</label>
+							<input formControlName="fechaCompra" placeholder = "{{activoEncontrado.afijFechacompra}}" class = "form-control" type = "text" onfocus = "(this.type = 'date')"  id = "dateCompra">
+						</div>
+					</div>
+					<div class="col-auto">
+						<div class="md-form input-group mb-3">
+							<label for="dateBaja" class="sr-only">Fecha baja</label>
+							<input formControlName="fechaBaja" placeholder = "{{activoEncontrado.afijFechabaja}}" class = "form-control" type = "text" onfocus = "(this.type = 'date')"  id = "dateBaja">
+						</div>
+					</div>
+					<div class="col-auto">
+						<div class="md-form input-group mb-3">
+							<label for="listaEstados" class="sr-only">Estado</label>
+							<select formControlName="estadoActual" class="custom-select" id="inputGroupSelect02" required="true">
+								<option *ngFor="let estado of estados" value="{{estado}}">{{estado}}</option>
+							</select>*
+						</div>
+					</div>
+					<div class="col-auto">
+						<div class="md-form input-group mb-3">
+							<label for="txtColor" class="sr-only">Color</label>
+							<input type="text" formControlName="color" id="txtColor" class="form-control" placeholder="{{activoEncontrado.afijColor}}">
+						</div>
+					</div>					
+				</div>
+				<div class="col col-lg-6 col-md-6 col-sm3">
+					<button class="btn btn-primary mx-3" [disabled]="!this.formActualizar.valid || !this.fechaCompraMayorQueFechaBajaActualizar()"><i class= "fa fa-pencil"></i> Actualizar</button>
+					<button type="reset" class="btn btn-secondary">Resetear campos</button>
+				</div>
+			</form>			
+		</div>		
+	</div>
+	<div *ngIf="activoEncontrado != undefined" class="row my-4">
+		<div class="col col-lg-12 col-md-6 col-sm-3 text-center">
+			<h1>Cambiar # de inventario y fecha de baja</h1>			
+				<span class="badge badge-danger" *ngIf="!this.formCambiarSerialInternoFechaBaja.valid">Hay uno o más campos obligatorios sin llenar.</span>
+		</div>
+		<div class="col col-lg-12 col-md-6 col-sm-4">
+			<form [formGroup]="formCambiarSerialInternoFechaBaja" (ngSubmit)="cambiarInventarioFechaBaja()">
+				<div class="form-row align-items-center">
+					<div class="col-auto">
+						<div class="md-form input-group mb-3">
+							<div class="md-form input-group mb-3">
+								<label for="txtInventario"># interno de inventario</label>
+								<input type="text" formControlName="numeroInventario" id="txtInventario" class="form-control" placeholder="{{activoEncontrado.afijNumeroinventario}}">*
+							</div>
+						</div>
+					</div>
+					<div class="col-auto">
+						<div class="md-form input-group mb-3">
+							<label for="dateBaja">Fecha baja</label>
+							<input formControlName="fechaBaja" placeholder = "{{activoEncontrado.afijFechabaja}}" class = "form-control" type = "text" onfocus = "(this.type = 'date')"  id = "dateBaja">*
+						</div>
+					</div>
+				</div>
+				<div class="col col-lg-6 col-md-6 col-sm3">
+					<button class="btn btn-primary mx-3" [disabled]="!this.formCambiarSerialInternoFechaBaja.valid"><i class= "fa fa-pencil"></i> Cambiar datos</button>
+					<button type="reset" class="btn btn-secondary">Resetear campos</button>
+				</div>
+			</form>
+		</div>
 	</div>
 </div>

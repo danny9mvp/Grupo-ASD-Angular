@@ -9,13 +9,55 @@ import { FormBuilder, Validators, FormGroup, FormControl } from '@angular/forms'
 export class CrearActualizarActivoComponent implements OnInit {  
   tipos : string[] = ["Construcciones", "Terrenos y bienes naturales", "Maquinaria", "Mobiliario","Propiedad, planta y equipo","Marca", 
   "Patente", "Franquicia", "Licencias y permisos"];
+  ids : any;
+  idSeleccionado : string;
+  activoEncontrado: any;
   estados : string[] = ["Activo", "Dado de baja", "En reparación", "Disponible", "Asignado"];
   formCrear : FormGroup;
+  formActualizar : FormGroup;
+  formCambiarSerialInternoFechaBaja : FormGroup;
   constructor(public activosFijosService: ActivosFijosServiceService, public formBuilder: FormBuilder) {
+  		this.activosFijosService.listarIds().then(data =>{
+  			this.ids = data;
+  		});
   		this.formCrear = formBuilder.group({nombre:['', Validators.required], descripcion:['', Validators.required], 
-  			tipo:['--Tipo', Validators.required], serial:[''], numeroInventario:[''],alto:[''],largo:[''],ancho:[''],peso:[''],
-  			valorCompra:[''], fechaCompra:[''], fechaBaja:[''], estadoActual:['--Estado actual', Validators.required], color:['']});
-  		console.log(this.formCrear);
+  			tipo:['', Validators.required], serial:[''], numeroInventario:[''],alto:[''],largo:[''],ancho:[''],peso:[''],
+  			valorCompra:[''], fechaCompra:[''], fechaBaja:[''], estadoActual:['', Validators.required], color:['']});
+  		
+  			this.formActualizar = this.formBuilder.group({nombre:['',Validators.required], descripcion:['', Validators.required], 
+  			tipo:['', Validators.required], serial:[''], numeroInventario:[''],alto:[''],largo:[''],ancho:[''],peso:[''],
+  			valorCompra:[''], fechaCompra:[''], fechaBaja:[''], estadoActual:['', Validators.required], color:['']});
+  		this.formCambiarSerialInternoFechaBaja = formBuilder.group({numeroInventario:['', Validators.required], 
+  			fechaBaja:['', Validators.required]});
+  		console.log(this.formCrear.valid);
+  		console.log(this.formActualizar.valid);
+  		console.log(this.formCambiarSerialInternoFechaBaja.valid); 	
+   }
+   fechaCompraMayorQueFechaBajaCrear(){
+
+   		let fechaCompra = this.formCrear.controls.fechaCompra.value;
+   		let fechaBaja = this.formCrear.controls.fechaBaja.value;
+   		if(fechaCompra != null && fechaCompra != null){
+   			if(fechaCompra >= fechaBaja){
+   				return true;
+   			}
+   			else{
+   				return false;
+   			}
+   		}   		
+   }
+
+   fechaCompraMayorQueFechaBajaActualizar(){
+   		let fechaCompra = this.formActualizar.controls.fechaCompra.value;
+   		let fechaBaja = this.formActualizar.controls.fechaBaja.value;
+   		if(fechaCompra != null && fechaCompra != null){
+   			if(fechaCompra >= fechaBaja){
+   				return true;
+   			}
+   			else{
+   				return false;
+   			}
+   		}   		
    }
 
   ngOnInit() {
@@ -41,6 +83,44 @@ export class CrearActualizarActivoComponent implements OnInit {
   	this.activosFijosService.crearActivo(activo).then(data => {
   		console.log(data);
   	});
+  }
+  buscarActivo(){
+  	this.activosFijosService.buscarActivo(parseInt(this.idSeleccionado)).then(data =>{
+  		console.log(data);
+  		this.activoEncontrado = data;  		
+  	});
+  }
+  actualizarActivo(){
+  	let activoActualizado = {
+  		id : parseInt(this.idSeleccionado),
+  		nombre : this.formActualizar.controls.nombre.value,
+  		descripcion : this.formActualizar.controls.descripcion.value,
+  		tipo : this.formActualizar.controls.tipo.value,
+  		serial : this.formActualizar.controls.serial.value,
+  		numeroInventario : this.formActualizar.controls.numeroInventario.value,
+  		alto : parseFloat(this.formActualizar.controls.alto.value),
+  		largo : parseFloat(this.formActualizar.controls.largo.value),
+  		ancho : parseFloat(this.formActualizar.controls.ancho.value),
+  		peso : parseFloat(this.formActualizar.controls.peso.value),
+  		valorCompra : Number(this.formActualizar.controls.valorCompra.value),
+  		fechaCompra : this.formActualizar.controls.fechaCompra.value,
+  		fechaBaja : this.formActualizar.controls.fechaBaja.value,
+  		estadoActual : this.formActualizar.controls.estadoActual.value,
+  		color : this.formActualizar.controls.color.value
+  	}
+  	this.activosFijosService.actualizarActivo(activoActualizado).then(data =>{
+  		console.log(data);
+  	})
+  }
+
+  cambiarInventarioFechaBaja(){
+  	let datos = {
+  		serial: this.formCambiarSerialInternoFechaBaja.controls.numeroInventario.value,
+  		fechaBaja : new Date(this.formCambiarSerialInternoFechaBaja.controls.fechaBaja.value)
+  	}
+  	this.activosFijosService.cambiarInventarioFechaBaja(this.idSeleccionado ,datos).then(data =>{
+  		console.log(data);
+  	})
   }
 
 }

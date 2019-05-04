@@ -67,6 +67,30 @@ export class ActivosFijosServiceService {
   	});
   }
 
+  listarIds(){
+  	let headers = new HttpHeaders({'Accept': 'text/javascript'});
+  	return new Promise(resolve =>{
+  		this.http.get("http://localhost:8080/activos/listarIds").subscribe(data =>{
+  			console.log("Listando Ids...");
+  			resolve(data);
+  		}, err =>{
+  			console.log(err);
+  		});
+  	})
+  }
+
+  buscarActivo(id){
+  	let headers = new HttpHeaders({'Accept': 'text/javascript'});
+  	return new Promise(resolve =>{
+  		this.http.get("http://localhost:8080/activos/activoFijo/"+id).subscribe(data =>{
+  			console.log("Buscando activo con id ="+id+" ...");
+  			resolve(data);
+  		}, err =>{
+  			console.log(err);
+  		});
+  	})
+  }
+
   crearActivo(activo){
   	let headers = new HttpHeaders({'Accept': 'text/javascript', 'ContentType': 'application/json'});
   	return new Promise(resolve =>{
@@ -79,4 +103,27 @@ export class ActivosFijosServiceService {
   	});
   }
 
+  actualizarActivo(activo){
+  	let headers = new HttpHeaders({'Accept': 'text/javascript', 'ContentType': 'application/json'});
+  	return new Promise(resolve =>{
+  		this.http.put("http://localhost:8080/activos/actualizarActivoFijo/"+activo.id, activo).subscribe(data => {
+  			console.log("Enviando petición para actualizar Activo Fijo...");
+  			resolve(data);
+  		}, err => {
+  			console.log(err);
+  		});
+  	});
+  }
+
+  cambiarInventarioFechaBaja(id,datos){
+  	let headers = new HttpHeaders({'Accept': 'text/javascript', 'ContentType': 'application/json'});
+  	return new Promise(resolve =>{
+  		this.http.put("http://localhost:8080/activos/actualizarSerialInternoYFechaDeBaja/"+id, datos).subscribe(data => {
+  			console.log("Enviando petición para cambiar # de inventario y fecha de baja del Activo Fijo...");
+  			resolve(data);
+  		}, err => {
+  			console.log(err);
+  		});
+  	});
+  }
 }
